@@ -1,0 +1,87 @@
+﻿<Window x:Class="WpfMailSender.ClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailSender"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:ListViewItemScheduler1="clr-namespace:WpfMailSender.SchedulerListView"
+        mc:Ignorable="d"
+        Title="Automatic Mail Sender" Width="900" Icon="img/Mail.ico" Height="420">
+    <DockPanel>
+        <Menu VerticalContentAlignment="Center" DockPanel.Dock="Top" Height="24">
+            <MenuItem x:Name="miFile" Header="File" Width="100"/>
+            <MenuItem x:Name="miClose" Header="Close" Width="100" Click="imClose_Click"/>
+        </Menu>
+        <TabControl x:Name="tabControl" DockPanel.Dock="Top">
+            <TabItem x:Name="tiFormation" Header="Formation of the distribution group" IsSelected="True">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <Grid Height="56" VerticalAlignment="Top" IsHitTestVisible="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="500*"/>
+                                <ColumnDefinition Width="388*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:ComboBoxControl x:Name="cbSenderSelect" Height="28" VerticalAlignment="Top" MinWidth="500" MinHeight="28" HorizontalAlignment="Left" Width="500" Text="Choose sender" btnAdd="cbSenderSelect_btnAdd_Click" btnDelete="cbSenderSelect_btnDelete_Click" btnEdit="cbSenderSelect_btnEdit_Click"/>
+                            <local:ComboBoxControl x:Name="cbSmtpSelect" Margin="1,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="28" MinWidth="499" MinHeight="28" Width="499" Text="Choose smtp-server" btnAdd="cbSmtpSelect_btnAdd_Click" btnDelete="cbSmtpSelect_btnDelete_Click" btnEdit="cbSmtpSelect_btnEdit_Click"/>
+                            <Border Height="28" VerticalAlignment="Top" MinWidth="353" MinHeight="28" Grid.Column="1" Width="350">
+                                <local:TabSwitcherControl x:Name="tscTabSwitcher" VerticalAlignment="Top" IsHideBtnPrevious="True" btnNextClick="TscTabSwitcher_btnNextClick" btnPreviousClick="TscTabSwitcher_btnPreviousClick"/>
+                            </Border>
+                            <ToolBar Height="28" MinWidth="353" MinHeight="28" VerticalAlignment="Bottom" Grid.Column="1" Width="353">
+                                <Label Content="List of addresses" Height="23" VerticalAlignment="Top" Width="243"/>
+                                <Button x:Name="btnAddAddress" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0,0,0,0" Width="25" Height="25" ToolTip="Удалить" Margin="0,-2,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                    <Image Source="img/add.png" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Add address"/>
+                                </Button>
+                                <Button x:Name="btnEditAddress" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0,0,0,0" Width="25" Height="25" ToolTip="Удалить" Margin="0,-2,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                    <Image Source="img/edit.png" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Edit address"/>
+                                </Button>
+                                <Button x:Name="btnDeleteAddress" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0,0,0,0" Width="25" Height="25" ToolTip="Удалить" Margin="0,-2,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                    <Image Source="img/delete1.ico" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Delete address"/>
+                                </Button>
+                            </ToolBar>
+                        </Grid>
+                        <DataGrid x:Name="dgEmails"/>
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tiScheduler" Header="Scheduler">
+                <Grid Background="#FFE5E5E5">
+                    <Calendar x:Name="cldSchedulDateTimes" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionMode="MultipleRange"/>
+                    <xctk:TimePicker x:Name="tbTimePicker" HorizontalAlignment="Left" Margin="0,168,0,0" VerticalAlignment="Top" Width="179"/>
+                    <Button x:Name="btnSendOnDate" HorizontalAlignment="Left" Margin="0,192,0,0" VerticalAlignment="Top" Width="179" Click="btnSendOnDate_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="img/clock.png" Width="16" Height="16" />
+                            <TextBlock Margin="3,0,0,0" Text="Send on date" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnSendAtOnce" HorizontalAlignment="Left" Margin="0,212,0,0" VerticalAlignment="Top" Width="179" Click="btnSendAtOnce_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="img/mail-icon.png" Width="16" Height="16" />
+                            <TextBlock Margin="3,0,0,0" Text="Send at once" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <local:TabSwitcherControl x:Name="tscTabSwitcher3" Height="29" Width="229" VerticalAlignment="Top" HorizontalAlignment="Right" btnNextClick="TscTabSwitcher_btnNextClick" btnPreviousClick="TscTabSwitcher_btnPreviousClick"/>
+                    <ListViewItemScheduler1:ListSchedulerView Height="303" Margin="179,0,234,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabMailBody" Header="The editor of letters">
+                <Grid Background="#FFE5E5E5">
+                    <RichTextBox x:Name="rtbMailBody" Margin="0,34,0,50">
+                        <FlowDocument/>
+                    </RichTextBox>
+                    <Button x:Name="btnSaveMailText" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="50" FontSize="18" Click="btnSaveMailText_Click" Content="Save"/>
+                    <local:TabSwitcherControl x:Name="tscTabSwitcher2" HorizontalAlignment="Right" Height="Auto" VerticalAlignment="Top" Width="Auto" btnNextClick="TscTabSwitcher_btnNextClick" btnPreviousClick="TscTabSwitcher_btnPreviousClick"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Statistics">
+                <Grid Background="#FFE5E5E5">
+                    <local:TabSwitcherControl x:Name="tscTabSwitcher1" HorizontalAlignment="Right" Height="Auto" Margin="0,0,2,0" VerticalAlignment="Top" Width="Auto" IsHideBtnNext="True" btnPreviousClick="TscTabSwitcher_btnPreviousClick"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
